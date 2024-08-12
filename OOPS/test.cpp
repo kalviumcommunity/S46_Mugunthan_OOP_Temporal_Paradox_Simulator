@@ -65,12 +65,17 @@ private:
 };
 
 int main() {
+   Traveler travelers[3] = {
+        Traveler("John Doe", "Future - 2050"),
+        Traveler("Alice Smith", "Past - 1800"),
+        Traveler("Bob Johnson", "Present - 2024")
+    };
     TimeMachine tm;
     tm.setPowerLevel(100);
     cout << "Power Level: " << tm.getPowerLevel() << endl;    
     tm.travel(); 
-    Traveler traveler("John Doe", "Future - 2050");
-    traveler.displayTravelerInfo(); 
-
+    for (int i = 0; i < 3; ++i) {
+        travelers[i].displayTravelerInfo();
+    }
     return 0;
 }
