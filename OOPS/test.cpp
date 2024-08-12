@@ -3,16 +3,24 @@ using namespace std;
 
 class TimeMachine {
 public:
+    TimeMachine() {
+        powerLevel = 0; 
+    }
+
+    TimeMachine(int level) {
+        this->powerLevel = level; 
+    }
+
     void setPowerLevel(int level) { 
-        powerLevel = level;
+        this->powerLevel = level; 
     }
 
     int getPowerLevel() { 
-        return powerLevel;
+        return this->powerLevel; 
     }
 
     void travel() { 
-        cout << "TimeMachine traveling through time with power level " << powerLevel << "!" << endl;
+        cout << "TimeMachine traveling through time with power level " << this->powerLevel << "!" << endl; 
     }
 
 private:
@@ -21,24 +29,34 @@ private:
 
 class Traveler {
 public:
-    void setName(string travelerName) { 
-        name = travelerName;
+    Traveler() {
+        name = "";        
+        destination = "";  
     }
 
-    string getName() { 
-        return name;
+    Traveler(string travelerName, string dest) {
+        this->name = travelerName;        
+        this->destination = dest;          
+    }
+
+    void setName(string travelerName) { 
+        this->name = travelerName; 
     }
 
     void setDestination(string dest) { 
-        destination = dest;
+        this->destination = dest; 
+    }
+
+    string getName() { 
+        return this->name; 
     }
 
     string getDestination() { 
-        return destination;
+        return this->destination; 
     }
 
     void displayTravelerInfo() {
-        cout << "Traveler: " << name << ", Destination: " << destination << endl;
+        cout << "Traveler: " << this->name << ", Destination: " << this->destination << endl; 
     }
 
 private:
@@ -47,15 +65,11 @@ private:
 };
 
 int main() {
-
     TimeMachine tm;
     tm.setPowerLevel(100);
-    cout << "Power Level: " << tm.getPowerLevel() << endl;    tm.travel(); 
-
-    // Creating an object of Time-Traveler
-    Traveler traveler;
-    traveler.setName("John Doe");
-    traveler.setDestination("Future - 2050"); 
+    cout << "Power Level: " << tm.getPowerLevel() << endl;    
+    tm.travel(); 
+    Traveler traveler("John Doe", "Future - 2050");
     traveler.displayTravelerInfo(); 
 
     return 0;
