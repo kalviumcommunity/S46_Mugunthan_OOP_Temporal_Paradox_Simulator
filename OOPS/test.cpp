@@ -10,6 +10,7 @@ public:
     }
 };
 
+// Multilevel inheritance: TimeMachine inherits from Machine, AdvancedTimeMachine inherits from TimeMachine
 class TimeMachine : public Machine {
 public:
     TimeMachine() {
@@ -50,19 +51,44 @@ private:
 
 int TimeMachine::numberOfTravels = 0;
 
-class Traveler {
+// Multilevel inheritance: AdvancedTimeMachine extends TimeMachine
+class AdvancedTimeMachine : public TimeMachine {
 public:
-    Traveler() {
-        name = "Unknown";
-        destination = "Unknown";
-        cout << "Traveler default constructor called." << endl;
-        numberOfTravelers++;
+    AdvancedTimeMachine(int level, string tech) : TimeMachine(level) {
+        technology = tech;
+        cout << "AdvancedTimeMachine constructor called." << endl;
     }
 
-    Traveler(string travelerName, string dest) {
-        name = travelerName;
+    void showTechnology() {
+        cout << "Using advanced technology: " << technology << endl;
+    }
+
+private:
+    string technology;
+};
+
+// Hierarchical inheritance: Traveler and Scientist inherit from a common base class "Person"
+class Person {
+public:
+    Person(string name) {
+        this->name = name;
+    }
+
+    string getName() {
+        return name;
+    }
+
+    virtual void showRole() = 0;
+
+protected:
+    string name;
+};
+
+class Traveler : public Person {
+public:
+    Traveler(string travelerName, string dest) : Person(travelerName) {
         destination = dest;
-        cout << "Traveler parameterized constructor called." << endl;
+        cout << "Traveler constructor called." << endl;
         numberOfTravelers++;
     }
 
@@ -70,24 +96,12 @@ public:
         cout << "Traveler destructor called for " << name << "." << endl;
     }
 
-    void setName(string travelerName) {
-        name = travelerName;
-    }
-
-    void setDestination(string dest) {
-        destination = dest;
-    }
-
-    string getName() {
-        return name;
-    }
-
-    string getDestination() {
-        return destination;
-    }
-
     void displayTravelerInfo() {
         cout << "Traveler: " << name << ", Destination: " << destination << endl;
+    }
+
+    void showRole() override {
+        cout << name << " is a traveler." << endl;
     }
 
     static int getNumberOfTravelers() {
@@ -95,35 +109,53 @@ public:
     }
 
 private:
-    string name;
     string destination;
     static int numberOfTravelers;
 };
 
 int Traveler::numberOfTravelers = 0;
 
-int main() {
-    Traveler travelers[3] = {
-        Traveler("John Doe", "Future - 2050"),
-        Traveler("Alice Smith", "Past - 1800"),
-        Traveler("Bob Johnson", "Present - 2024")
-    };
-
-    TimeMachine tm;
-    tm.setPowerLevel(100);
-    cout << "Power Level: " << tm.getPowerLevel() << endl;
-    tm.travel();
-
-    for (int i = 0; i < 3; ++i) {
-        travelers[i].displayTravelerInfo();
+class Scientist : public Person {
+public:
+    Scientist(string scientistName, string field) : Person(scientistName) {
+        researchField = field;
+        cout << "Scientist constructor called." << endl;
     }
 
-    Traveler* traveler1 = new Traveler("Mugunthan", "Past - 2015");
-    traveler1->displayTravelerInfo();
-    delete traveler1;
+    void displayResearch() {
+        cout << name << " is researching " << researchField << "." << endl;
+    }
+
+    void showRole() override {
+        cout << name << " is a scientist." << endl;
+    }
+
+private:
+    string researchField;
+};
+
+int main() {
+    Traveler travelers[2] = {
+        Traveler("John Doe", "Future - 2050"),
+        Traveler("Alice Smith", "Past - 1800")
+    };
+
+    AdvancedTimeMachine atm(200, "Quantum Flux Drive");
+    atm.travel();
+    atm.showTechnology();
+
+    for (int i = 0; i < 2; ++i) {
+        travelers[i].displayTravelerInfo();
+        travelers[i].showRole();
+    }
+
+    Scientist scientist("Dr. Brown", "Time Paradoxes");
+    scientist.displayResearch();
+    scientist.showRole();
 
     int totalTravels = TimeMachine::getNumberOfTravels();
     int totalTravelers = Traveler::getNumberOfTravelers();
+
     cout << "Total Travels: " << totalTravels << endl;
     cout << "Total Travelers: " << totalTravelers << endl;
 
